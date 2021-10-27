@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "outDir": "./dist",
+    "baseUrl": "./src",
+    "declaration": true,
+    "downlevelIteration": true,
+    "target": "ES5",
+  },
+  "include": [
+    "./src"
+  ],
+  "exclude": [
+    "./dist"
+  ]
+}
