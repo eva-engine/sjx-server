@@ -1,19 +1,29 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
-    "moduleResolution": "node",
-    "allowSyntheticDefaultImports": true,
+    "target": "esnext",
     "strict": true,
+    "module": "CommonJS",
+    "moduleResolution": "node",
+    "baseUrl": ".",
+    "rootDir": ".",
     "outDir": "./dist",
-    "baseUrl": "./src",
-    "declaration": true,
-    "downlevelIteration": true,
-    "target": "ES5",
+    "allowSyntheticDefaultImports": true,
+    "importHelpers": true,
+    "isolatedModules": true,
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "allowJs": true,
+    "paths": {},
   },
   "include": [
-    "./src"
+    "./src/**/*.ts",
+    "./src/global.d.ts",
+    "./src/**/__test__"
   ],
   "exclude": [
-    "./dist"
-  ]
+    "./**/*.spec.ts"
+  ],
+  "ts-node": {
+    "transpileOnly": true
+  }
 }
