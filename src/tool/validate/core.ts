@@ -1,4 +1,3 @@
-import "koa-body";
 import { between, complex, custom, default_, in_, isBoolean, isInt, isNumber, isString, len, max, min, notNull, nullable, regexp } from "./plugin";
 import { breakSymbol, checkSymbol, ComplexRule, setSymbol } from "./symbol";
 

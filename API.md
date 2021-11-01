@@ -39,7 +39,7 @@
 > request
 >  - email:string  
 >  - code:string  
->  - uname:string  
+>  - uname?:string  
 
 > response User
 

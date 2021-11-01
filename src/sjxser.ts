@@ -1,9 +1,12 @@
 import chalk from "chalk";
-import Koa from "koa";
+import Koa, { Context } from "koa";
 import Router from "koa-router";
 import Body from "koa-body";
 import Logger from "koa-logger";
 import websockify from "koa-websocket";
+import { Result } from "./result/Result";
+import { configHandleError } from "./tool/validate";
+import { ParameterError } from "./error";
 
 const PORT = 10006;
 
@@ -24,23 +27,40 @@ app.ws.use(async ctx => {
 
 app.use(Logger());
 app.use(Body());
+
+configHandleError(async result => {
+  throw new ParameterError(result);
+})
+
 app.use(async (ctx, next) => {
   try {
-    ctx.body = {}
-    await next();
-    if (ctx.body.data) {
-      ctx.status = 200;
-      ctx.body.message = 'success';
-    }
+    const result = await next() as Result;
+    handleSuccess(ctx as Context, result);
   } catch (e: any) {
-    console.error(e);
-    ctx.status = e.acode ?? 500;
-    ctx.body = {
-      status: ctx.status,
-      message: e.amsg ?? 'Server error, try again later.'
-    };
+    handleError(ctx as Context, e);
   }
-})
+});
+
+function handleSuccess(ctx: Context, result: Result) {
+  if ((result).isResult) {
+    ctx.status = 200;
+    ctx.message = 'success';
+    ctx.body = {
+      code: result.code,
+      message: result.message,
+      data: result.data
+    }
+  }
+}
+function handleError(ctx: Context, e: any) {
+  console.error(e);
+  ctx.status = e.acode ?? 500;
+  ctx.message = e.amsg ?? 'Server error, try again later.';
+  ctx.body = {
+    status: ctx.status,
+    message: e.amsg ?? 'Server error, try again later.'
+  };
+}
 
 
 __app.listen(PORT);

@@ -1,5 +1,5 @@
 import chalk from "chalk";
-import { except, configHandleError } from ".";
+import { expect, configHandleError } from ".";
 import type { Validator } from "./core";
 
 configHandleError(async msg => console.log(chalk.red(msg)));
@@ -23,12 +23,12 @@ async function test(body: any, validator: Validator) {
 
 (async () => {
 
-  test({}, except());
+  test({}, expect());
 
-  test({ a: 123123 }, except({ a: 'isNumber' }));
+  test({ a: 123123 }, expect({ a: 'isNumber' }));
 
-  test({ b: !!2, a: 2131231 }, except({ b: 'isBoolean', a: ['isInt', ['in', [2131231, 123, 23, 123, 123]]] }));
+  test({ b: !!2, a: 2131231 }, expect({ b: 'isBoolean', a: ['isInt', ['in', [2131231, 123, 23, 123, 123]]] }));
 
-  test({ a: true, b: 'abssssss' }, except('a').isBoolean().expect('b').in(['abss', 'absssss']));
+  test({ a: true, b: 'abssssss' }, expect('a').isBoolean().expect('b').in(['abss', 'absssss']));
 
 })()
