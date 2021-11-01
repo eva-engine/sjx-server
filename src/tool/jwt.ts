@@ -22,7 +22,7 @@ export async function loginRequired(ctx: Context, next: Next) {
     const data = check(token);
     if (data.expires < Date.now()) throw new LoginStateError('登录信息已过期，请重新登录');
     Object.assign(ctx, data);
-    await next();
+    return await next();
   } catch (e: any) {
     throw e.acode ? e : new LoginStateError();
   }
@@ -35,7 +35,7 @@ export async function rootRequired(ctx: Context, next: Next) {
     if (data.expires < Date.now()) throw new LoginStateError('登录信息已过期，请重新登录');
     if (data.email !== '2219927527@qq.com') throw new PermissionError('没有管理员权限');
     Object.assign(ctx, data);
-    await next();
+    return await next();
   } catch (e: any) {
     throw e.acode ? e : new PermissionError();
   }

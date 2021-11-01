@@ -1,9 +1,8 @@
 import { createPool } from "mysql2/promise";
 
+import config from "../secret.json";
+
 export const pool = createPool({
-  host: '47.93.8.254',
-  user: 'root',
-  password: 'aspsnd',
-  database: 'sjx',
+  ...config,
   charset: 'utf8'
 });
