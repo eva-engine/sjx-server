@@ -1,6 +1,8 @@
 import { createTransport } from "nodemailer";
 import SMTPTransport from "nodemailer/lib/smtp-transport";
+import { readFileSync } from "fs";
 
+const pass = readFileSync('./etoken', 'utf8').trim();
 export async function sendMail(receiver: string, title: string, content: string): Promise<SMTPTransport.SentMessageInfo> {
   const transfor = createTransport({
     host: 'smtp.qq.com',
@@ -9,7 +11,7 @@ export async function sendMail(receiver: string, title: string, content: string)
     service: 'qq',
     auth: {
       user: '2219927527@qq.com',
-      pass: 'tonwsflonjgmeaeg'
+      pass,
     }
   });
   const mail = {

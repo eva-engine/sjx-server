@@ -12,3 +12,6 @@ export const BreakSignal: BreakSignal = [breakSymbol];
 
 export type SetSignal = [setSymbol, any];
 export type CheckSignal = [checkSymbol, boolean];
+
+export const checkSuccess: CheckSignal = [checkSymbol, true];
+export const checkFailure: CheckSignal = [checkSymbol, false];

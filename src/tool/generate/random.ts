@@ -10,3 +10,6 @@ export function randomHexStr(len: number) {
   return result.slice(0, len);
 }
 
+export function randomInt(from: number, to: number) {
+  return (from + (to - from) * Math.random()) | 0;
+}

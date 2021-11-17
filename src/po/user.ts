@@ -8,6 +8,7 @@ export interface User {
   email: string
   score: number
   uname: string
+  upass?: string
 }
 export type InsertUser = Nullable<User, 'id' | 'score'>;
 export type TempleteUser = Nullable<InsertUser, 'email'>;
