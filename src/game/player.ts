@@ -51,6 +51,7 @@ export class Player {
 
   destroy() {
     this.socket.readyState < 2 && this.socket.close();
+    this.room?.deletePlayer(this);
   }
 
 }

@@ -1,5 +1,49 @@
-import type { RoomJson, RoomOptions } from "./room";
+export const RoomSize = {
+  Small: 0,
+  Middle: 1,
+  Large: 2
+} as const
 
+export const RoomMode = {
+  OneVsOne: 0,
+  // 一边最多10个人
+  MultiVsMulti: 1
+} as const
+export interface RoomOptions {
+  name: string
+  token?: string
+
+  mode: typeof RoomMode[keyof typeof RoomMode]
+
+  // 1v1只能最小房间， 多对多三种大小均可
+  size: typeof RoomSize[keyof typeof RoomSize]
+
+  // 开局后还可不可以加入
+  lock: boolean
+
+  // 一边人数最多多少，单位模式只能是1，多人模式最多10
+  limit: number
+
+  allowWatch: boolean
+}
+export interface RoomJson {
+  name: string
+  mode: typeof RoomMode[keyof typeof RoomMode]
+  size: typeof RoomSize[keyof typeof RoomSize]
+  lock: boolean
+  limit: number
+  master?: number
+  players: {
+    id: number
+    uname: string
+    ready: boolean
+    playerConfig: PlayerConfig
+  }[]
+  running: boolean
+  allowWatch: boolean
+  id: number
+  preClose: boolean
+}
 export enum ToSType {
   In = 0,     // 加入房间
   Ready = 1,  // 准备/房主开局

@@ -6,10 +6,12 @@ export function generateID() {
   if (IDCache.length <= MIN_COUNT) {
     IDCache.unshift(++head);
   }
+  console.log('create room :', IDCache[IDCache.length - 1]);
   return IDCache.pop()!;
 }
 
 export function releaseID(id: number) {
+  console.log('release room :', id);
   IDCache.unshift(id);
 }
 

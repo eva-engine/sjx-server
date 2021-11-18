@@ -1,4 +1,5 @@
-import { Room, RoomMode } from "./room";
+import { RoomMode } from "./define";
+import { Room } from "./room";
 
 export const RoomController = new class {
 
