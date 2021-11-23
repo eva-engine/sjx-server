@@ -14,6 +14,7 @@ import { check } from "./tool/jwt";
 import { getUserById } from "./mapper/user";
 import { Player } from "./game/player";
 import { initPlayerActions } from "./game/action";
+import { RoomController } from "./game";
 
 initPlayerActions();
 
@@ -89,6 +90,26 @@ function handleError(ctx: Context, e: any) {
   };
 }
 
+process.stdin.setEncoding('utf-8');
 
+process.stdin.on('data', input => {
+  const cmd = input.toString().trim();
+  switch (cmd) {
+    case 'lr': {
+      console.log(chalk.blue(`recieve command ${cmd}`));
+      for (const room of RoomController.rooms) {
+        console.log(chalk.blueBright(room.toString()));
+      }
+      break;
+    }
+    case 'lp': {
+      console.log(chalk.blue(`recieve command ${cmd}`));
+      for (const player of Player.PlayerCache) {
+        console.log(chalk.blueBright(player.toString()));
+      }
+      break;
+    }
+  }
+})
 __app.listen(PORT);
 console.log(chalk.green(`Server start on port ${PORT}`));

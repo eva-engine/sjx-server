@@ -35,6 +35,9 @@ export const initPlayerActions = () => {
   });
 
   Player.registerAction(ToSType.Create, function (data: CreateStruct) {
+    if (this.room) {
+      this.room.deletePlayer(this);
+    }
     const { options, playerConfig } = data.data;
     const room = new Room(options);
     this.group = 1;
@@ -54,7 +57,7 @@ export const initPlayerActions = () => {
 
   Player.registerAction(ToSType.Kill, function (data: KillStruct) {
     if (!this.room) return this.error('不在该对局中', data.id);
-    
+
   })
 
   // TODO Watch

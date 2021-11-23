@@ -92,6 +92,7 @@ export class Room {
 
   constructor(options: Partial<RoomOptions>) {
     this.options = Object.assign({}, DefaultRoomOptions, options);
+    RoomController.add(this);
   }
 
   watchers: Player[] = []
@@ -117,7 +118,6 @@ export class Room {
       this.master = this.players[0];
     }
     if (!this.valid) {
-      RoomController.delete(this);
       this.destroy();
     }
     this.broadcast();
@@ -181,6 +181,7 @@ export class Room {
 
   destroy() {
     releaseID(this.id);
+    RoomController.delete(this);
     for (const w of this.watchers) {
       w.error('对局已结束');
     }
@@ -216,6 +217,9 @@ export class Room {
       running: this.running,
       preClose: this.preClode
     }
+  }
+  toString() {
+    return `[Room - ${this.id}]: master: ${this.master?.user.id} - ${this.master?.user.uname}`;
   }
 
 }

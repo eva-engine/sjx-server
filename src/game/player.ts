@@ -8,6 +8,9 @@ export interface PlayerAction<T extends ToSType> {
   (this: Player, data: MessageStruct<T>): void
 }
 export class Player {
+
+  static PlayerCache = new Set<Player>()
+
   // 在一场对局中的阵营
   group?: 1 | 2
   playerConfig?: PlayerConfig
@@ -20,6 +23,7 @@ export class Player {
   static actions: Partial<Record<ToSType, PlayerAction<ToSType>>> = {}
   room?: Room
   constructor(public socket: WebSocket, public user: User) {
+    Player.PlayerCache.add(this);
     socket.onmessage = e => {
       try {
         const data = JSON.parse(e.data as string) as MessageStruct<ToSType>;
@@ -29,6 +33,9 @@ export class Player {
       } catch (e) {
         console.error(e);
       }
+    }
+    socket.onclose = e => {
+      this.destroy();
     }
   }
 
@@ -51,7 +58,12 @@ export class Player {
 
   destroy() {
     this.socket.readyState < 2 && this.socket.close();
+    Player.PlayerCache.delete(this);
     this.room?.deletePlayer(this);
+  }
+
+  toString() {
+    return `[Player - ${this.user.id} : ${this.user.uname}]: room: ${this.room?.id ?? 'null'}`;
   }
 
 }
